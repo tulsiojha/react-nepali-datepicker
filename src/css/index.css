@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/* Scope all generated utilities to .zener */
+@layer utilities {
+  .zener {
+    /* This forces utility classes to only be meaningful inside .zener */
+  }
+}
+
+/* Scoped resets — only inside .zener */
+.zener *,
+.zener *::before,
+.zener *::after {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+.zener .zener-date-picker,
+.zener .zener-date-picker * {
+  scroll-behavior: unset !important;
+}
+
+.zener .zener-date-picker svg {
+  display: block;
+}
+
+.zener .zener-date-picker button {
+  cursor: pointer;
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+  border: none;
+}
+
+.zener .zener-date-picker input,
+.zener .zener-date-picker button {
+  font-family: inherit;
+  -webkit-font-feature-settings: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+
+/* CSS variables — global is fine, they're just tokens */
+:root {
+  --zener-menu-container-bg: #ffffff;
+  --zener-menu-container-text: #000000;
+  --zener-menu-container-text-selected: #ffffff;
+  --zener-menu-container-text-selected-disabled: #ffffff;
+  --zener-menu-container-text-selected-bg: #1d2275;
+  --zener-menu-container-text-selected-disabled-bg: #d8d8d8;
+  --zener-menu-container-text-border: #1d2275;
+  --zener-menu-container-item-hover: #f3f4f6;
+  --zener-menu-container-text-disabled: #d1d5db;
+  --zener-menu-footer-today-text: #1d2275;
+  --zener-menu-footer-today-hover-text: #000000;
+  --zener-menu-header-icon: #9ca3af;
+  --zener-menu-header-icon-hover: #000000;
+  --zener-menu-header-icon-disabled: #e5e7eb;
+  --zener-menu-container-top-bottom-border: #d1d5db;
+  --zener-input-text: #000000;
+  --zener-input-bg: #ffffff;
+  --zener-input-border: #e7e5e4;
+  --zener-input-focus-ring: #60a5fa;
+  --zener-input-disabled-bg: #0000000d;
+  --zener-input-disabled-text: #00000040;
+  --zener-input-disabled-border: #f5f5f4;
+}
+
+@theme {
+  --color-input-text: var(--zener-input-text);
+  --color-input-bg: var(--zener-input-bg);
+  --color-input-border: var(--zener-input-border);
+  --color-input-focus-ring: var(--zener-input-focus-ring);
+  --color-input-disabled-bg: var(--zener-input-disabled-bg);
+  --color-input-disabled-text: var(--zener-input-disabled-text);
+  --color-input-disabled-border: var(--zener-input-disabled-border);
+  --color-menu-container-bg: var(--zener-menu-container-bg);
+  --color-menu-container-text: var(--zener-menu-container-text);
+  --color-menu-container-text-border: var(--zener-menu-container-text-border);
+  --color-menu-container-text-selected: var(
+    --zener-menu-container-text-selected
+  );
+  --color-menu-container-text-selected-disabled: var(
+    --zener-menu-container-text-selected-disabled
+  );
+  --color-menu-container-text-selected-bg: var(
+    --zener-menu-container-text-selected-bg
+  );
+  --color-menu-container-text-selected-disabled-bg: var(
+    --zener-menu-container-text-selected-disabled-bg
+  );
+  --color-menu-container-item-hover: var(--zener-menu-container-item-hover);
+  --color-menu-container-text-disabled: var(
+    --zener-menu-container-text-disabled
+  );
+  --color-menu-footer-today: var(--zener-menu-footer-today-text);
+  --color-menu-footer-today-hover: var(--zener-menu-footer-today-hover-text);
+  --color-menu-header-icon: var(--zener-menu-header-icon);
+  --color-menu-header-icon-hover: var(--zener-menu-header-icon-hover);
+  --color-menu-header-icon-disabled: var(--zener-menu-header-icon-disabled);
+  --color-menu-container-top-bottom-border: var(
+    --zener-menu-container-top-bottom-border
+  );
+  --color-transparent: rgba(255, 255, 255, 0);
+  --color-inherit: inherit;
+
+  --shadow-menu:
+    0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  --shadow-menu-dark:
+    0 6px 16px 0 rgba(41, 41, 41, 0.08), 0 3px 6px -4px rgba(41, 41, 41, 0.12),
+    0 9px 28px 8px rgba(41, 41, 41, 0.05);
+}
+
+@utility shadow-menu {
+  box-shadow: var(--shadow-menu);
+}
+@utility shadow-menu-dark {
+  box-shadow: var(--shadow-menu-dark);
+}
