@@ -1,5 +1,3 @@
-import "../css/index.css";
-
 import NepaliDate, * as nepaliDateConstants from "@zener/nepali-date";
 
 import NepaliDatePicker from "./nepali-date-picker";

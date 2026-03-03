@@ -1,36 +1,70 @@
 {
-  "name": "@my-scope/my-lib",
-  "version": "0.0.1",
-  "type": "module",
+  "name": "@zener/nepali-datepicker-react",
+  "author": "Bikash Ojha",
+  "license": "MIT",
+  "version": "1.6.2",
+  "description": "Nepali Datepicker React is a lightweight, highly customizable, and feature-rich datepicker component, specifically designed for handling Nepali dates in React.js applications. It offers seamless integration, intuitive user experience, and extensive configuration options.",
+  "private": false,
+  "types": "./dist/index.d.ts",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
-  "types": "./dist/index.d.ts",
-  "style": "./dist/index.css",
+  "sideEffects": false,
   "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js"
+    "./index.css": {
+      "import": "./dist/index.css",
+      "require": "./dist/index.css"
     },
-    "./styles": "./dist/index.css"
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs.js"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tulsiojha/nepali-datepicker-react.git"
+  },
+  "keywords": [
+    "react",
+    "input",
+    "control",
+    "form",
+    "ui",
+    "date-picker",
+    "date-api",
+    "customize",
+    "nepali",
+    "AD",
+    "BS"
+  ],
+  "files": ["dist", "README.md", "LICENSE"],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "dev": "cd playground && bunx vite",
     "build": "vite build",
     "build:watch": "vite build --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "pack": "vite build && npm pack --pack-destination ./out"
   },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.0",
+    "@tailwindcss/vite": "^4.2.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.2.1",
     "typescript": "^5.0.0",
     "vite": "^6.0.0",
     "vite-plugin-dts": "^4.0.0"
@@ -40,5 +74,17 @@
     "@zener/nepali-date": "^1.1.5",
     "classnames": "^2.5.1",
     "framer-motion": "^12.34.3"
-  }
+  },
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/tulsiojha/nepali-datepicker-react/issues"
+  },
+  "homepage": "https://nepali-datepicker-react.ojhabikash.com.np/"
 }

@@ -1,10 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import NepaliDate, { formatADDate } from "@zener/nepali-date";
 import Menu from "./menu";
-import useBounds from "../utils/use-bounds";
 import { cn } from "../utils/commons";
 import { CloseIcon } from "../icons";
 import type { DateTypeMap, INepaliDatePicker } from "./types";
+import "../css/index.css";
+import useFloatingAdvanced from "../utils/use-floating-advance";
 
 const NepaliDatePicker = <T extends keyof DateTypeMap | undefined = "BS">({
   type = "BS",
@@ -23,10 +24,10 @@ const NepaliDatePicker = <T extends keyof DateTypeMap | undefined = "BS">({
   suffix,
   showclear = true,
   converterMode,
-  animation,
   format = "YYYY-MM-DD",
   max,
   min,
+  alignmentOptions,
 }: INepaliDatePicker<T>) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,7 +39,13 @@ const NepaliDatePicker = <T extends keyof DateTypeMap | undefined = "BS">({
     type === "BS" ? new NepaliDate() : new Date(),
   );
 
-  const { bounds } = useBounds(containerRef, [show, open]);
+  const { bounds } = useFloatingAdvanced(
+    containerRef,
+    portalRef,
+    show || !!open,
+    [],
+    { ...alignmentOptions, shift: true, flip: true },
+  );
 
   useEffect(() => {
     setToday(type === "BS" ? new NepaliDate() : new Date());
@@ -263,7 +270,6 @@ const NepaliDatePicker = <T extends keyof DateTypeMap | undefined = "BS">({
         components={components}
         type={type}
         converterMode={converterMode}
-        animation={animation}
         max={max}
         min={min}
       />

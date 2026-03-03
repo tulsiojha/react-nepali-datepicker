@@ -1,7 +1,9 @@
 import NepaliDate from "@zener/nepali-date";
-import { AnimationProps } from "framer-motion";
 import type { ReactNode, RefObject } from "react";
-import type { IBounds } from "../utils/use-bounds";
+import type {
+  AlignmentOptions,
+  FloatingBounds,
+} from "@lib/utils/use-floating-advance";
 
 export type ISuffixRender = (props: {
   onClear: () => void;
@@ -64,6 +66,8 @@ export type IComponents = {
     isDisabled: boolean;
   }) => ReactNode;
   week?: (props: { weekText: string; weekNumber: number }) => ReactNode;
+  portalContainer?: ({ portal }: { portal?: ReactNode }) => ReactNode;
+  menuContainer?: ({ menu }: { menu?: ReactNode }) => ReactNode;
 };
 
 export interface IBaseType<T extends keyof DateTypeMap | undefined = "BS"> {
@@ -77,7 +81,6 @@ export interface IBaseType<T extends keyof DateTypeMap | undefined = "BS"> {
   components?: IComponents;
   min?: T extends "BS" ? NepaliDate : Date;
   max?: T extends "BS" ? NepaliDate : Date;
-  animation?: null | AnimationProps;
 }
 
 export interface INepaliDatePicker<
@@ -94,6 +97,10 @@ export interface INepaliDatePicker<
     | string
     | (() => { focus?: string; disabled?: string; default?: string });
   format?: string;
+  alignmentOptions?: Pick<
+    AlignmentOptions,
+    "placement" | "align" | "offset" | "padding"
+  >;
 }
 
 export type ISelectionMode = "day" | "month" | "year";
@@ -101,7 +108,7 @@ export type ISelectionMode = "day" | "month" | "year";
 export interface IMenu<T extends keyof DateTypeMap | undefined = "BS">
   extends IBaseType<T> {
   show: boolean;
-  bounds: IBounds;
+  bounds: FloatingBounds;
   portalRef: RefObject<HTMLDivElement | null>;
   today: NepaliDate | Date;
   selectedDate?: NepaliDate | Date | null;

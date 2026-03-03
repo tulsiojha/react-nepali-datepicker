@@ -40,5 +40,9 @@
     {
       "path": "./playground"
     }
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
   ]
 }

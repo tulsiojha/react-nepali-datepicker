@@ -1,6 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
-import { Portal } from "@radix-ui/react-portal";
 import NepaliDate, {
   AD_MONTH,
   AD_MONTH_NEPALI,
@@ -33,6 +31,7 @@ import {
 
 import { NextIcon, PreviousIcon } from "../icons";
 import type { DateTypeMap, IMenu, ISelectionMode } from "./types";
+import { Portal } from "./portal";
 
 const Menu = <T extends keyof DateTypeMap | undefined = "BS">({
   type,
@@ -48,7 +47,6 @@ const Menu = <T extends keyof DateTypeMap | undefined = "BS">({
   portalClassName,
   components,
   converterMode,
-  animation,
   max,
   min,
 }: IMenu<T>) => {
@@ -992,134 +990,133 @@ const Menu = <T extends keyof DateTypeMap | undefined = "BS">({
     onChange?.(today);
   };
 
-  return (
-    <AnimatePresence>
-      {show && (
-        <Portal
-          tabIndex={-1}
-          className={cn(
-            "zener date-picker pointer-events-auto absolute z-[9999999999999999999] min-w-[282px] left-0 top-0",
-            portalClassName || "font-sans mt-1",
-          )}
-          style={{
-            transform: `translate(${bounds.left}px,${bounds.height + bounds.top}px)`,
-          }}
-          ref={portalRef}
-        >
-          <motion.div
-            {...(animation ||
-              (animation === null
-                ? {}
-                : {
-                    initial: { opacity: 0, translateY: -5 },
-                    animate: { opacity: 1, translateY: 0 },
-                    exit: { opacity: 0, translateY: -5 },
-                    transition: { duration: 0.2 },
-                  }))}
-            className={cn(
-              "overflow-hidden h-full",
-              menuContainerClassName ||
-                "bg-menu-container-bg rounded-md shadow-menu text-menu-container-text",
-            )}
-          >
-            {components?.header ? (
-              components.header({
-                prevClick: onPrevClicked,
-                nextClick: onNextClick,
-                prevDisabled: isPrevDisabled(),
-                nextDisabled: isNextDisabled(),
-                selectionMode,
-                onMonthSelectClicked,
-                onYearSelectClicked,
-                monthText: getHeaderMonthText(),
-                yearText: getHeaderYearText(),
-                monthNumber: selectedMonthYear?.month || 0,
-                yearRange: getDecadeRange(currentYearRangeIndex),
-                yearNumber: selectedMonthYear?.year || 0,
-                yearRangeText: getYearRange,
-              })
-            ) : (
-              <div className="flex flex-row items-center text-sm justify-between py-2 border-0 border-b border-b-menu-container-top-bottom-border border-solid">
-                <button
-                  className={cn(
-                    "month-prev-button p-2 text-menu-header-icon hover:text-menu-header-icon-hover disabled:text-menu-header-icon-disabled",
-                    {
-                      "cursor-pointer": !isPrevDisabled(),
-                      "!cursor-default": isPrevDisabled(),
-                    },
-                  )}
-                  disabled={isPrevDisabled()}
-                  onClick={onPrevClicked}
-                  tabIndex={-1}
-                >
-                  <PreviousIcon size={20} />
-                </button>
-                {(selectionMode === "day" || selectionMode === "month") && (
-                  <div className="font-semibold flex flex-row items-center">
-                    {selectionMode === "day" && (
-                      <button
-                        tabIndex={-1}
-                        className="py-1 px-1.5 rounded cursor-pointer hover:bg-menu-container-item-hover"
-                        onClick={onMonthSelectClicked}
-                      >
-                        {getHeaderMonthText()}
-                      </button>
-                    )}
-                    <button
-                      tabIndex={-1}
-                      className="py-1 px-1.5 rounded cursor-pointer hover:bg-menu-container-item-hover"
-                      onClick={onYearSelectClicked}
-                    >
-                      {getHeaderYearText()}
-                    </button>
-                  </div>
-                )}
-                {selectionMode === "year" && (
-                  <div className="cursor-default font-semibold flex flex-row items-center">
-                    {getYearRange}
-                  </div>
-                )}
-                <button
-                  className={cn(
-                    "month-next-button p-2 text-menu-header-icon hover:text-menu-header-icon-hover disabled:text-menu-header-icon-disabled",
-                    {
-                      "cursor-pointer": !isNextDisabled(),
-                      "!cursor-default": isNextDisabled(),
-                    },
-                  )}
-                  tabIndex={-1}
-                  disabled={isNextDisabled()}
-                  onClick={onNextClick}
-                >
-                  <NextIcon size={20} />
-                </button>
-              </div>
-            )}
-            <div className={cn(calendarClassName || "p-2")}>
-              <table className="w-full h-full border-collapse">
-                {getSelectionContent}
-              </table>
-            </div>
-            {components?.footer ? (
-              components.footer({
-                onTodayClick: selectToday,
-                todayText,
-              })
-            ) : (
-              <div className="flex flex-row items-center justify-center border-0 border-t border-solid border-t-menu-container-top-bottom-border">
-                <button
-                  className="text-menu-footer-today font-normal !text-sm p-2 hover:text-menu-footer-today-hover"
-                  onClick={selectToday}
-                >
-                  {todayText}
-                </button>
-              </div>
-            )}
-          </motion.div>
-        </Portal>
+  const menu = (
+    <div
+      className={cn(
+        "overflow-hidden h-full",
+        menuContainerClassName ||
+          "bg-menu-container-bg rounded-md shadow-menu text-menu-container-text",
       )}
-    </AnimatePresence>
+    >
+      {components?.header ? (
+        components.header({
+          prevClick: onPrevClicked,
+          nextClick: onNextClick,
+          prevDisabled: isPrevDisabled(),
+          nextDisabled: isNextDisabled(),
+          selectionMode,
+          onMonthSelectClicked,
+          onYearSelectClicked,
+          monthText: getHeaderMonthText(),
+          yearText: getHeaderYearText(),
+          monthNumber: selectedMonthYear?.month || 0,
+          yearRange: getDecadeRange(currentYearRangeIndex),
+          yearNumber: selectedMonthYear?.year || 0,
+          yearRangeText: getYearRange,
+        })
+      ) : (
+        <div className="flex flex-row items-center text-sm justify-between py-2 border-0 border-b border-b-menu-container-top-bottom-border border-solid">
+          <button
+            className={cn(
+              "month-prev-button p-2 text-menu-header-icon hover:text-menu-header-icon-hover disabled:text-menu-header-icon-disabled",
+              {
+                "cursor-pointer": !isPrevDisabled(),
+                "cursor-default!": isPrevDisabled(),
+              },
+            )}
+            disabled={isPrevDisabled()}
+            onClick={onPrevClicked}
+            tabIndex={-1}
+          >
+            <PreviousIcon size={20} />
+          </button>
+          {(selectionMode === "day" || selectionMode === "month") && (
+            <div className="font-semibold flex flex-row items-center">
+              {selectionMode === "day" && (
+                <button
+                  tabIndex={-1}
+                  className="py-1 px-1.5 rounded cursor-pointer hover:bg-menu-container-item-hover"
+                  onClick={onMonthSelectClicked}
+                >
+                  {getHeaderMonthText()}
+                </button>
+              )}
+              <button
+                tabIndex={-1}
+                className="py-1 px-1.5 rounded cursor-pointer hover:bg-menu-container-item-hover"
+                onClick={onYearSelectClicked}
+              >
+                {getHeaderYearText()}
+              </button>
+            </div>
+          )}
+          {selectionMode === "year" && (
+            <div className="cursor-default font-semibold flex flex-row items-center">
+              {getYearRange}
+            </div>
+          )}
+          <button
+            className={cn(
+              "month-next-button p-2 text-menu-header-icon hover:text-menu-header-icon-hover disabled:text-menu-header-icon-disabled",
+              {
+                "cursor-pointer": !isNextDisabled(),
+                "cursor-default!": isNextDisabled(),
+              },
+            )}
+            tabIndex={-1}
+            disabled={isNextDisabled()}
+            onClick={onNextClick}
+          >
+            <NextIcon size={20} />
+          </button>
+        </div>
+      )}
+      <div className={cn(calendarClassName || "p-2")}>
+        <table className="w-full h-full border-collapse">
+          {getSelectionContent}
+        </table>
+      </div>
+      {components?.footer ? (
+        components.footer({
+          onTodayClick: selectToday,
+          todayText,
+        })
+      ) : (
+        <div className="flex flex-row items-center justify-center border-0 border-t border-solid border-t-menu-container-top-bottom-border">
+          <button
+            className="text-menu-footer-today font-normal text-sm! p-2 hover:text-menu-footer-today-hover cursor-pointer"
+            onClick={selectToday}
+          >
+            {todayText}
+          </button>
+        </div>
+      )}
+    </div>
   );
+
+  const menuContainer = components?.menuContainer
+    ? components.menuContainer({ menu })
+    : menu;
+
+  const portal = show ? (
+    <Portal
+      tabIndex={-1}
+      className={cn(
+        "zener date-picker pointer-events-auto absolute z-[9999999999999999999] min-w-[282px] left-0 top-0",
+        portalClassName || "font-sans mt-1",
+      )}
+      style={{
+        transform: `translate(${bounds.left}px,${bounds.top}px)`,
+      }}
+      ref={portalRef}
+    >
+      {menuContainer}
+    </Portal>
+  ) : null;
+
+  return components?.portalContainer
+    ? components.portalContainer({ portal })
+    : portal;
 };
 
 export default Menu;
